@@ -4,9 +4,21 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
+
+    public void scanNew(View view)
+    {
+
+    }
+
+    public void ViewTeams(View view)
+    {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         final ImageView logoImageView= findViewById(R.id.logoImageView);
         final ImageView nameImageView= findViewById(R.id.nameImageView);
+        final Button scanButton=findViewById(R.id.scanButton);
+        final Button teamsButton=findViewById(R.id.teamsButton);
         logoImageView.animate().rotation(360).scaleY(0.15f).scaleX(0.15f).setDuration(1000);
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -31,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }, 1500);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                scanButton.setVisibility(View.VISIBLE);
+                teamsButton.setVisibility(View.VISIBLE);
+            }
+        },2500);
 
 
 
