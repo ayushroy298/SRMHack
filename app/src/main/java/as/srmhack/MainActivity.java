@@ -1,5 +1,6 @@
 package as.srmhack;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +13,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void scanNew(View view)
     {
-
+        Intent intent=new Intent(getApplicationContext(),scanNew.class);
+        startActivity(intent);
     }
 
     public void ViewTeams(View view)
     {
-
+        Intent intent=new Intent(getApplicationContext(),viewTeams.class);
+        startActivity(intent);
     }
 
     @Override
