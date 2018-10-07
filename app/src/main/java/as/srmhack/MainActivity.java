@@ -66,21 +66,21 @@ public class MainActivity extends AppCompatActivity {
                 logoImageView.animate().translationXBy(-1000).setDuration(500);
                 nameImageView.animate().alpha(1).setDuration(1000);
             }
-        }, 1000);
+        }, 1100);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 nameImageView.animate().translationYBy(-750).setDuration(1000);
 
             }
-        }, 1500);
+        }, 1600);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 scanButton.setVisibility(View.VISIBLE);
                 teamsButton.setVisibility(View.VISIBLE);
             }
-        },2500);
+        },2600);
 
 
 
