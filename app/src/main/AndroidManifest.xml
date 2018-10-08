@@ -4,6 +4,7 @@
     package="as.srmhack">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +28,8 @@
         </activity>
         <activity android:name=".scanNew" />
         <activity android:name=".viewTeams" />
-        <activity android:name=".newParticipant"></activity>
+        <activity android:name=".newParticipant" />
+        <activity android:name=".InfoActivity"></activity>
     </application>
 
 </manifest>
