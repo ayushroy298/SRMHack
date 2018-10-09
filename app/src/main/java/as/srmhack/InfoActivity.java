@@ -27,11 +27,14 @@ public class InfoActivity extends AppCompatActivity {
         Intent intent=getIntent();
         url = intent.getExtras().getString("code");
 
-        databaseReference =FirebaseDatabase.getInstance().getReference("Teams");
+        //Bas kuch check kar raha tha
+        //Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Teams");
         //to get the children of Team
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //iteration through names of the team
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
 
@@ -61,9 +64,7 @@ public class InfoActivity extends AppCompatActivity {
                             Toast.makeText(getBaseContext(),"Error,url: "+url,Toast.LENGTH_LONG).show();
                         }
                     });
-
                 }
-
             }
 
             @Override
