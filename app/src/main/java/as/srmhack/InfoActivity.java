@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +19,7 @@ public class InfoActivity extends AppCompatActivity {
 
     DatabaseReference databaseReference,dr;
     String url,team,name,email,phone;
+    TextView textView,textView1,textView2,textView3,textView4,teamView,nameView,emailView,phoneView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,17 @@ public class InfoActivity extends AppCompatActivity {
         //url from scanning
         Intent intent=getIntent();
         url = intent.getExtras().getString("code");
+
+        //setting the text view
+        textView=findViewById(R.id.textView);
+        textView1=findViewById(R.id.textView2);
+        textView2=findViewById(R.id.textView3);
+        textView3=findViewById(R.id.textView4);
+        textView4=findViewById(R.id.textView5);
+        teamView=findViewById(R.id.teamView);
+        nameView=findViewById(R.id.nameView);
+        emailView=findViewById(R.id.emailView);
+        phoneView=findViewById(R.id.phoneView);
 
         databaseReference =FirebaseDatabase.getInstance().getReference("Teams");
         //to get the children of Team
@@ -49,6 +62,12 @@ public class InfoActivity extends AppCompatActivity {
                                 email = data.child("Email").getValue(String.class);
                                 phone = data.child("Mobile").getValue(String.class);
                                 dr.child(name).child("Status").setValue("1");
+
+                                //setting value to text field
+                                teamView.setText(team);
+                                nameView.setText(name);
+                                emailView.setText(email);
+                                phoneView.setText(phone);
 
                                 Log.i("output", team+" "+name+" "+email+" "+phone);
                                 Toast.makeText(getBaseContext(), team+" "+name+" "+email+" "+phone,Toast.LENGTH_LONG).show();
