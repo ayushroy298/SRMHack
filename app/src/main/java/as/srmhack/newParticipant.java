@@ -34,7 +34,7 @@ public class newParticipant extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference().child("Teams").child(teamEditText.getText().toString()).child(nameEditText.getText().toString()).child("Email").setValue(emailEditText.getText().toString());
         FirebaseDatabase.getInstance().getReference().child("Teams").child(teamEditText.getText().toString()).child(nameEditText.getText().toString()).child("URL").setValue(urlEditText.getText().toString());
         FirebaseDatabase.getInstance().getReference().child("Teams").child(teamEditText.getText().toString()).child(nameEditText.getText().toString()).child("Status").setValue("0");
-        FirebaseDatabase.getInstance().getReference().child("Teams").child(teamEditText.getText().toString()).child("Status").setValue("0");
+        //FirebaseDatabase.getInstance().getReference().child("Teams").child(teamEditText.getText().toString()).child("Size").setValue(sizeEditText.toString());
         Toast.makeText(this, "Entered", Toast.LENGTH_SHORT).show();
     }
     String name;

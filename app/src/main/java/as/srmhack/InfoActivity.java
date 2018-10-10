@@ -28,8 +28,6 @@ public class InfoActivity extends AppCompatActivity {
         //url from scanning
         Intent intent=getIntent();
         url = intent.getExtras().getString("code");
-        //Bas kuch check kar raha tha
-        //Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Teams");
         //setting the text view
@@ -64,7 +62,7 @@ public class InfoActivity extends AppCompatActivity {
                                 name=data.getKey();
                                 email = data.child("Email").getValue(String.class);
                                 phone = data.child("Mobile").getValue(String.class);
-                                dr.child(name).child("Status").setValue("1");
+                                //dr.child(name).child("Status").setValue("1");
 
                                 //setting value to text field
                                 teamView.setText(team);
@@ -73,7 +71,7 @@ public class InfoActivity extends AppCompatActivity {
                                 phoneView.setText(phone);
 
                                 Log.i("output", team+" "+name+" "+email+" "+phone);
-                                Toast.makeText(getBaseContext(), team+" "+name+" "+email+" "+phone,Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getBaseContext(), team+" "+name+" "+email+" "+phone,Toast.LENGTH_LONG).show();
                             }
 
                         }

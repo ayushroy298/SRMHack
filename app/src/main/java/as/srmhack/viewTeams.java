@@ -1,6 +1,7 @@
 package as.srmhack;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -34,10 +35,11 @@ public class viewTeams extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_teams);
-        ListView teamNameListView=findViewById(R.id.teamNameListView);
+        final ListView teamNameListView=findViewById(R.id.teamNameListView);
         teamName=new ArrayList();
         arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,teamName);
         teamNameListView.setAdapter(arrayAdapter);
+
         final TextView textView=findViewById(R.id.textView);
         FirebaseDatabase.getInstance().getReference().child("Teams").addChildEventListener(new ChildEventListener()
         {
@@ -74,7 +76,5 @@ public class viewTeams extends AppCompatActivity
 
             }
         });
-
-
     }
 }
