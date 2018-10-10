@@ -29,7 +29,8 @@
         <activity android:name=".scanNew" />
         <activity android:name=".viewTeams" />
         <activity android:name=".newParticipant" />
-        <activity android:name=".InfoActivity"></activity>
+        <activity android:name=".InfoActivity" />
+        <activity android:name=".TeamMembersList"></activity>
     </application>
 
 </manifest>

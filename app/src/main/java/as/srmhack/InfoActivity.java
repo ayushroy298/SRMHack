@@ -29,6 +29,7 @@ public class InfoActivity extends AppCompatActivity {
         Intent intent=getIntent();
         url = intent.getExtras().getString("code");
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("Teams");
         //setting the text view
         textView=findViewById(R.id.textView);
         textView1=findViewById(R.id.textView2);
@@ -44,7 +45,7 @@ public class InfoActivity extends AppCompatActivity {
         //to get the children of Team
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+              public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //iteration through names of the team
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
 
@@ -61,7 +62,7 @@ public class InfoActivity extends AppCompatActivity {
                                 name=data.getKey();
                                 email = data.child("Email").getValue(String.class);
                                 phone = data.child("Mobile").getValue(String.class);
-                                dr.child(name).child("Status").setValue("1");
+                                //dr.child(name).child("Status").setValue("1");
 
                                 //setting value to text field
                                 teamView.setText(team);
@@ -70,7 +71,7 @@ public class InfoActivity extends AppCompatActivity {
                                 phoneView.setText(phone);
 
                                 Log.i("output", team+" "+name+" "+email+" "+phone);
-                                Toast.makeText(getBaseContext(), team+" "+name+" "+email+" "+phone,Toast.LENGTH_LONG).show();
+                                //Toast.makeText(getBaseContext(), team+" "+name+" "+email+" "+phone,Toast.LENGTH_LONG).show();
                             }
 
                         }
@@ -80,9 +81,7 @@ public class InfoActivity extends AppCompatActivity {
                             Toast.makeText(getBaseContext(),"Error,url: "+url,Toast.LENGTH_LONG).show();
                         }
                     });
-
                 }
-
             }
 
             @Override
