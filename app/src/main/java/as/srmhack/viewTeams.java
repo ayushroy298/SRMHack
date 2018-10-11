@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseError;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,17 +31,35 @@ public class viewTeams extends AppCompatActivity
     String name;
     ArrayAdapter arrayAdapter;
     ArrayList teamName;
+    int i;
+    ListView teamNameListView;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_teams);
-        final ListView teamNameListView=findViewById(R.id.teamNameListView);
+        teamNameListView=findViewById(R.id.teamNameListView);
         teamName=new ArrayList();
+        teamName.add("Ayush");
+        i=0;
         arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,teamName);
         teamNameListView.setAdapter(arrayAdapter);
+        textView=findViewById(R.id.textView);
 
-        final TextView textView=findViewById(R.id.textView);
+        FirebaseDatabase.getInstance().getReference().child("Teams").addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                System.out.println("We're done loading the initial "+dataSnapshot.getChildrenCount()+" items");
+                Toast.makeText(viewTeams.this, Integer.toString(teamNameListView.getAdapter().getCount()), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         FirebaseDatabase.getInstance().getReference().child("Teams").addChildEventListener(new ChildEventListener()
         {
             @Override
@@ -50,6 +69,8 @@ public class viewTeams extends AppCompatActivity
                 name=dataSnapshot.getKey();
                 teamName.add(name);
                 arrayAdapter.notifyDataSetChanged();
+                //teamNameListView.getChildAt(1).setBackgroundColor(Color.parseColor("red"));
+                i++;
             }
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
@@ -63,7 +84,7 @@ public class viewTeams extends AppCompatActivity
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
-        teamNameListView.setAdapter(arrayAdapter);
+
         teamNameListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override

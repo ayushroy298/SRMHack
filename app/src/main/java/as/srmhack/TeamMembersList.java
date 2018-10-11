@@ -14,6 +14,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -29,11 +30,24 @@ public class TeamMembersList extends AppCompatActivity {
         setContentView(R.layout.activity_team_members_list);
         Intent intent=getIntent();
         String name = intent.getExtras().getString("code");
-        ListView nameListView=findViewById(R.id.nameListView);
+        final ListView nameListView=findViewById(R.id.nameListView);
         memberName=new ArrayList();
         arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,memberName);
         nameListView.setAdapter(arrayAdapter);
         final TextView textView=findViewById(R.id.textView);
+        FirebaseDatabase.getInstance().getReference().child("Teams").child(name).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                Toast.makeText(TeamMembersList.this, Integer.toString(nameListView.getAdapter().getCount()), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(viewTeams.this, Integer.toString(teamNameListView.getAdapter().getCount()), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         FirebaseDatabase.getInstance().getReference().child("Teams").child(name).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)

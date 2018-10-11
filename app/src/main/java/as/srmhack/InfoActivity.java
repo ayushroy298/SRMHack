@@ -20,6 +20,7 @@ public class InfoActivity extends AppCompatActivity {
     DatabaseReference databaseReference,dr;
     String url,team,name,email,phone;
     TextView textView,textView1,textView2,textView3,textView4,teamView,nameView,emailView,phoneView;
+    int f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class InfoActivity extends AppCompatActivity {
         textView2=findViewById(R.id.textView3);
         textView3=findViewById(R.id.textView4);
         textView4=findViewById(R.id.textView5);
+        f=0;
         teamView=findViewById(R.id.teamView);
         nameView=findViewById(R.id.nameView);
         emailView=findViewById(R.id.emailView);
@@ -62,7 +64,13 @@ public class InfoActivity extends AppCompatActivity {
                                 name=data.getKey();
                                 email = data.child("Email").getValue(String.class);
                                 phone = data.child("Mobile").getValue(String.class);
-                                //dr.child(name).child("Status").setValue("1");
+                                String status= (String) data.child("Status").getValue();
+                                if(f==0)
+                                {
+                                    f++;
+                                    FirebaseDatabase.getInstance().getReference().child("Teams").child(team).child(name).child("Status").removeValue();
+                                    FirebaseDatabase.getInstance().getReference().child("Teams").child(team).child(name).child("Status").setValue("1");
+                                }
 
                                 //setting value to text field
                                 teamView.setText(team);
