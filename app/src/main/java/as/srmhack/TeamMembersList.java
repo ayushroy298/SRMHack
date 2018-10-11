@@ -1,10 +1,13 @@
 package as.srmhack;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,32 +25,35 @@ public class TeamMembersList extends AppCompatActivity {
 
     ArrayList memberName;
     ArrayAdapter arrayAdapter;
-    String add;
+    String add,name,nameMember;
+    ListView nameListView;
+
+    public void colour(final String nameMember){
+        nameListView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,memberName){
+            public View getView(int position,View convertView, ViewGroup parent)
+            {
+                View row = super.getView(position, convertView, parent);
+
+                if(getItem(position).equals(nameMember))
+                    row.setBackgroundColor (Color.RED); // some color
+
+                return row;
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_members_list);
         Intent intent=getIntent();
-        String name = intent.getExtras().getString("code");
-        final ListView nameListView=findViewById(R.id.nameListView);
+        name = intent.getExtras().getString("code");
+        nameListView=findViewById(R.id.nameListView);
         memberName=new ArrayList();
         arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,memberName);
         nameListView.setAdapter(arrayAdapter);
         final TextView textView=findViewById(R.id.textView);
-        FirebaseDatabase.getInstance().getReference().child("Teams").child(name).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                Toast.makeText(TeamMembersList.this, Integer.toString(nameListView.getAdapter().getCount()), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(viewTeams.this, Integer.toString(teamNameListView.getAdapter().getCount()), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
         FirebaseDatabase.getInstance().getReference().child("Teams").child(name).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
@@ -70,5 +76,34 @@ public class TeamMembersList extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
+
+        FirebaseDatabase.getInstance().getReference().child("Teams").child(name).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren())
+                {
+                    String status= (String) ds.child("Status").getValue();
+                    nameMember=ds.getKey();
+                    try {
+                        if (status.equals("1"))
+                        {
+
+                            //colour(nameMember);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

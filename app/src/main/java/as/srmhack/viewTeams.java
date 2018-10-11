@@ -51,7 +51,7 @@ public class viewTeams extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 System.out.println("We're done loading the initial "+dataSnapshot.getChildrenCount()+" items");
-                Toast.makeText(viewTeams.this, Integer.toString(teamNameListView.getAdapter().getCount()), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(viewTeams.this, Integer.toString(teamNameListView.getAdapter().getCount()), Toast.LENGTH_SHORT).show();
             }
 
             @Override
