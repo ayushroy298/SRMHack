@@ -2,6 +2,7 @@ package as.srmhack;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -25,85 +26,76 @@ public class TeamMembersList extends AppCompatActivity {
 
     ArrayList memberName;
     ArrayAdapter arrayAdapter;
-    String add,name,nameMember;
+    String add,name;
     ListView nameListView;
-
-    public void colour(final String nameMember){
-        nameListView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,memberName){
-            public View getView(int position,View convertView, ViewGroup parent)
-            {
-                View row = super.getView(position, convertView, parent);
-
-                if(getItem(position).equals(nameMember))
-                    row.setBackgroundColor (Color.RED); // some color
-
-                return row;
-            }
-        });
-    }
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_members_list);
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         name = intent.getExtras().getString("code");
-        nameListView=findViewById(R.id.nameListView);
-        memberName=new ArrayList();
-        arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1,memberName);
+        nameListView = findViewById(R.id.nameListView);
+        memberName = new ArrayList();
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, memberName);
         nameListView.setAdapter(arrayAdapter);
-        final TextView textView=findViewById(R.id.textView);
+        final TextView textView = findViewById(R.id.textView);
         FirebaseDatabase.getInstance().getReference().child("Teams").child(name).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-            {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 textView.setText("Team Members");
-                add=dataSnapshot.getKey();
+                add = dataSnapshot.getKey();
                 memberName.add(add);
                 arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {}
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            }
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {}
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-
-        FirebaseDatabase.getInstance().getReference().child("Teams").child(name).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren())
-                {
-                    String status= (String) ds.child("Status").getValue();
-                    nameMember=ds.getKey();
-                    try {
-                        if (status.equals("1"))
-                        {
-
-                            //colour(nameMember);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run()
+            {
+                FirebaseDatabase.getInstance().getReference().child("Teams").child(name).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        int i = 0;
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            String status = (String) ds.child("Status").getValue();
+                            if (status.equals("1")) {
+                                nameListView.getChildAt(i).setBackgroundColor(Color.GREEN);
+                            }
+                            else
+                            {
+                                nameListView.getChildAt(i).setBackgroundColor(Color.WHITE);
+                            }
+                            i++;
+                            arrayAdapter.notifyDataSetChanged();
+
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        }, 3000);
 
     }
 }
