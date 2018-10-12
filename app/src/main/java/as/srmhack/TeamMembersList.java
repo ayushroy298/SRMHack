@@ -81,7 +81,7 @@ public class TeamMembersList extends AppCompatActivity {
                             }
                             else
                             {
-                                nameListView.getChildAt(i).setBackgroundColor(Color.WHITE);
+                                nameListView.getChildAt(i).setBackgroundColor(Color.YELLOW);
                             }
                             i++;
                             arrayAdapter.notifyDataSetChanged();
@@ -95,7 +95,7 @@ public class TeamMembersList extends AppCompatActivity {
                 });
 
             }
-        }, 3000);
+        }, 100);
 
     }
 }

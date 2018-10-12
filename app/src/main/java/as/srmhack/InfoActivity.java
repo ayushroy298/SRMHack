@@ -50,7 +50,6 @@ public class InfoActivity extends AppCompatActivity {
               public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //iteration through names of the team
                 for(DataSnapshot ds: dataSnapshot.getChildren()){
-
                     dr= FirebaseDatabase.getInstance().getReference("Teams").child(ds.getKey());
                     //to get to the participant name
                     Query query=dr.orderByChild("URL").equalTo(url);
@@ -64,7 +63,7 @@ public class InfoActivity extends AppCompatActivity {
                                 name=data.getKey();
                                 email = data.child("Email").getValue(String.class);
                                 phone = data.child("Mobile").getValue(String.class);
-                                String status= (String) data.child("Status").getValue();
+                                //String status= (String) data.child("Status").getValue();
                                 if(f==0)
                                 {
                                     f++;
